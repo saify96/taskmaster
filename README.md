@@ -1,6 +1,6 @@
 # Task master
-
-## Main Activity (Home Page)
+# Lab 26
+<!-- ## Main Activity (Home Page)
 ![image description](screenshots/lab26/homelab26.jpg)
 ## Add Task Activity
 
@@ -11,4 +11,24 @@
 
 ## All Tasks Activity
 ![image description](screenshots/lab26/allTasks.jpg)
+ -->
+- Create Home page contains two buttons to send you to two different pages (activities).
+- Add Task page have two fields to take inputs and button that show us submitted when press it.
+- All Tasks page have an image with button to take you back to Home Page.
 
+<img src="screenshots/lab26/homelab26.jpg" alt="Home Page" width="200"/>
+<img src="screenshots/lab26/addTasklab26.jpg" alt="Add Task" width="200"/>
+<img src="screenshots/lab26/addTaskSubmitted.jpg" alt="submitted button" width="200"/>
+<img src="screenshots/lab26/allTasks.jpg" alt="All Tasks" width="200"/>
+
+
+# Lab 27
+- Create Home page contain three different buttons and if i press on any button will take me to another page(task details page) and show the button text as a title.
+- Create Setting page with field that takes the username from the user and sen it to the home page.
+
+<img src="screenshots/lab27/home.jpg" width="200"/>
+<img src="screenshots/lab27/anas.jpg" width="200"/>
+<img src="screenshots/lab27/majd.jpg" width="200"/>
+<img src="screenshots/lab27/ayyoub.jpg" width="200"/>
+<img src="screenshots/lab27/setting.jpg" width="200"/>
+<img src="screenshots/lab27/newUsername.jpg" width="200"/>

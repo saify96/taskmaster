@@ -1,14 +1,62 @@
 package com.example.taskmaster;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.widget.Button;
+import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        Button anasButton = findViewById(R.id.anasButton);
+        anasButton.setOnClickListener(view -> {
+            Intent goToTaskDetailActivity = new Intent(MainActivity.this, TaskDetail.class);
+            goToTaskDetailActivity.putExtra("title","Anas");
+            startActivity(goToTaskDetailActivity);
+        });
+        Button majdButton = findViewById(R.id.majdButton);
+        majdButton.setOnClickListener(view -> {
+            Intent goToTaskDetailActivity = new Intent(MainActivity.this, TaskDetail.class);
+            goToTaskDetailActivity.putExtra("title","Majd");
+            startActivity(goToTaskDetailActivity);
+        });
+        Button ayyoubButton = findViewById(R.id.ayyoubButton);
+        ayyoubButton.setOnClickListener(view -> {
+            Intent goToTaskDetailActivity = new Intent(MainActivity.this, TaskDetail.class);
+            goToTaskDetailActivity.putExtra("title","Ayyoub");
+            startActivity(goToTaskDetailActivity);
+        });
+        Button settingButton = findViewById(R.id.settingButton);
+        settingButton.setOnClickListener(view -> {
+            Intent goToSettingActivity = new Intent(MainActivity.this, SettingPage.class);
+            startActivity(goToSettingActivity);
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String tasks = "'s Tasks ";
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+        String userName = sharedPreferences.getString("userName", "User");
+
+        TextView userNameView = findViewById(R.id.userNameView);
+        userNameView.setText(userName + tasks);
+
+    }
+}
 
 
-
-
-
+//lab26
 //    @Override
 //    protected void onCreate(Bundle savedInstanceState) {
 //        super.onCreate(savedInstanceState);
@@ -32,4 +80,3 @@ public class MainActivity extends AppCompatActivity {
 //        }});
 //
 //    }
-}
