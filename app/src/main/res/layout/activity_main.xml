@@ -67,6 +67,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="136dp"
         android:text="Majd"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -79,6 +80,7 @@
         android:layout_marginStart="44dp"
         android:layout_marginBottom="136dp"
         android:text="Anas"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -89,6 +91,7 @@
         android:layout_marginEnd="44dp"
         android:layout_marginBottom="136dp"
         android:text="Ayyoub"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -107,12 +110,24 @@
         android:id="@+id/userNameView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="188dp"
         android:text="Tasks"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/anasButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.126"
+        app:layout_constraintHorizontal_bias="0.201"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/allTasksRecyclerView"
+
+        android:layout_width="258dp"
+        android:layout_height="116dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.457"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView5"
+        app:layout_constraintVertical_bias="0.546" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

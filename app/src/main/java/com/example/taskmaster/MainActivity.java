@@ -8,6 +8,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,19 +24,19 @@ public class MainActivity extends AppCompatActivity {
         Button anasButton = findViewById(R.id.anasButton);
         anasButton.setOnClickListener(view -> {
             Intent goToTaskDetailActivity = new Intent(MainActivity.this, TaskDetail.class);
-            goToTaskDetailActivity.putExtra("title","Anas");
+            goToTaskDetailActivity.putExtra("title", "Anas");
             startActivity(goToTaskDetailActivity);
         });
         Button majdButton = findViewById(R.id.majdButton);
         majdButton.setOnClickListener(view -> {
             Intent goToTaskDetailActivity = new Intent(MainActivity.this, TaskDetail.class);
-            goToTaskDetailActivity.putExtra("title","Majd");
+            goToTaskDetailActivity.putExtra("title", "Majd");
             startActivity(goToTaskDetailActivity);
         });
         Button ayyoubButton = findViewById(R.id.ayyoubButton);
         ayyoubButton.setOnClickListener(view -> {
             Intent goToTaskDetailActivity = new Intent(MainActivity.this, TaskDetail.class);
-            goToTaskDetailActivity.putExtra("title","Ayyoub");
+            goToTaskDetailActivity.putExtra("title", "Ayyoub");
             startActivity(goToTaskDetailActivity);
         });
         Button settingButton = findViewById(R.id.settingButton);
@@ -39,6 +44,15 @@ public class MainActivity extends AppCompatActivity {
             Intent goToSettingActivity = new Intent(MainActivity.this, SettingPage.class);
             startActivity(goToSettingActivity);
         });
+
+        List<Task> tasksList = new ArrayList<>();
+        tasksList.add(new Task("Task 1", "lab", "new"));
+        tasksList.add(new Task("Task 2", "Code Challenge", "assigned"));
+        tasksList.add(new Task("Task 3", "Repeat", "in progress"));
+
+        RecyclerView allTasksRecyclerView = findViewById(R.id.allTasksRecyclerView);
+        allTasksRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        allTasksRecyclerView.setAdapter(new TaskAdapter(tasksList));
     }
 
     @Override
