@@ -32,3 +32,9 @@
 <img src="screenshots/lab27/ayyoub.jpg" width="200"/>
 <img src="screenshots/lab27/setting.jpg" width="200"/>
 <img src="screenshots/lab27/newUsername.jpg" width="200"/>
+
+# Lab 28
+- Create a Class for the Task to model the data for our tasks then create a ViewAdapter class that displays data from a list of Tasks (hardcoded task)
+
+<img src="screenshots/lab28/home1.jpg" width="200"/>
+<img src="screenshots/lab28/home2.jpg" width="200"/>

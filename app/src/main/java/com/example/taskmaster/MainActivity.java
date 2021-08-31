@@ -8,6 +8,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,6 +44,15 @@ public class MainActivity extends AppCompatActivity {
             Intent goToSettingActivity = new Intent(MainActivity.this, SettingPage.class);
             startActivity(goToSettingActivity);
         });
+
+        List<Task> tasksList = new ArrayList<>();
+        tasksList.add(new Task("Task 1" ,"lab"));
+        tasksList.add(new Task("Task 2" ,"Code Challenge"));
+        tasksList.add(new Task("Task 3" ,"Repeat"));
+
+        RecyclerView allTasksRecyclerView = findViewById(R.id.allTasksRecyclerView);
+        allTasksRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        allTasksRecyclerView.setAdapter(new TaskAdapter(tasksList));
     }
 
     @Override
