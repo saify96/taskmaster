@@ -33,6 +33,11 @@ public class TaskDetail extends AppCompatActivity {
         String title = intent.getExtras().getString("title");
         TextView taskDetailTitle = findViewById(R.id.taskDetailTitle);
         taskDetailTitle.setText(title);
-
+        String desc = intent.getExtras().getString("description");
+        TextView taskDetailDesc = findViewById(R.id.taskDetailDesc);
+        taskDetailDesc.setText(desc);
+        String state = intent.getExtras().getString("state");
+        TextView taskDetailState = findViewById(R.id.taskDetailState);
+        taskDetailState.setText(state);
     }
 }
