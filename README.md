@@ -22,6 +22,7 @@
 <img src="screenshots/lab26/allTasks.jpg" alt="All Tasks" width="200"/>
 
 
+
 # Lab 27
 - Create Home page contain three different buttons and if i press on any button will take me to another page(task details page) and show the button text as a title.
 - Create Setting page with field that takes the username from the user and sen it to the home page.
@@ -38,3 +39,13 @@
 
 <img src="screenshots/lab28/home1.jpg" width="200"/>
 <img src="screenshots/lab28/home2.jpg" width="200"/>
+
+# Lab 29
+- Create DataBase to store the added tasks in it.
+- Retrieve the data from DataBase when we want to display it in the RecyclerView
+- Add a clickListener to the itemView to send me to the details page and display all information of the task.DataBase
+
+<img src="screenshots/lab29/home.jpg" width="200"/>
+<img src="screenshots/lab28/add.jpg" width="200"/>
+<img src="screenshots/lab28/db.jpg" width="200"/>
+
