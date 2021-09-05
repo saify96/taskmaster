@@ -28,7 +28,7 @@ public class SettingPage extends AppCompatActivity {
 
 
         Button saveButton = findViewById(R.id.saveButton);
-        saveButton.setOnClickListener((view)->{
+        saveButton.setOnClickListener((view) -> {
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(SettingPage.this);
             SharedPreferences.Editor sharedPreferencesEditor = sharedPreferences.edit();
 
@@ -37,6 +37,9 @@ public class SettingPage extends AppCompatActivity {
 
             sharedPreferencesEditor.putString("userName", userName);
             sharedPreferencesEditor.apply();
+
+            Intent intent = new Intent(SettingPage.this, MainActivity.class);
+            startActivity(intent);
 
         });
 
