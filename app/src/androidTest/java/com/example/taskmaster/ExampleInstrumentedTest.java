@@ -41,7 +41,6 @@ import java.util.Set;
 @RunWith(AndroidJUnit4.class)
 @LargeTest
 public class ExampleInstrumentedTest {
-
     @Rule
     public ActivityScenarioRule<MainActivity> activityRule =
             new ActivityScenarioRule<>(MainActivity.class);
@@ -54,26 +53,25 @@ public class ExampleInstrumentedTest {
         onView(withId(R.id.allTasksRecyclerView)).check(matches(isDisplayed()));
     }
     @Test
-    public void mainActivityTests() {
+    public void settingActivityTests() {
         onView(withId(R.id.settingButton)).perform(click());
         onView(withId(R.id.userNameInput))
                 .perform(typeText("saify"), closeSoftKeyboard());
         onView(withId(R.id.saveButton)).perform(click());
         onView(withId(R.id.userNameView)).check(matches(withText("saify\'s Tasks")));
     }
-
     @Test
-    public void taskDetailsTest(){
+    public void recyclerViewTest(){
         onView(withId(R.id.allTasksRecyclerView))
                 .perform(actionOnItemAtPosition(0, click()));
-        TaskDataBase appDB = Room.databaseBuilder(getApplicationContext(), TaskDataBase.class, "tasks-db").allowMainThreadQueries().build();
-        TaskDao taskDao = appDB.taskDao();
-        onView(withText(taskDao.getAll().get(0).title)).check(matches(isDisplayed()));
+        TaskDataBase db = Room.databaseBuilder(getApplicationContext(), TaskDataBase.class, "tasks-db").allowMainThreadQueries().build();
+        TaskDao taskDao = db.taskDao();
+//        onView(withText(taskDao.getAll().get(0).title)).check(matches(isDisplayed()));
+        onView(withText(taskDao.getAll().get(0).title));
     }
 
-
-    @Test(expected = PerformException.class)
-    public void itemWithText_doesNotExist() {
+    @Test
+    public void itemWithTextInRecycler() {
         // Attempt to scroll to an item that contains the special text.
         onView(withId(R.id.allTasksRecyclerView))
                 // scrollTo will fail the test if no item matches.
@@ -81,7 +79,18 @@ public class ExampleInstrumentedTest {
                         hasDescendant(withText("ayyoub"))
                 ));
     }
+    @Test
+    public void addTaskActivityTests() {
+        onView(withId(R.id.addTaskButton)).perform(click());
+        onView(withId(R.id.taskTitle))
+                .perform(typeText("batool"), closeSoftKeyboard());
+        onView(withId(R.id.submitButton)).perform(click());
+        onView(withId(R.id.allTasksRecyclerView)).perform(RecyclerViewActions.scrollTo(
+                hasDescendant(withText("batool"))
+        ));
+    }
 
+//
     //Setting
 
 //    @Rule
