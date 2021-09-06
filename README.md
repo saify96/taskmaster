@@ -46,6 +46,6 @@
 - Add a clickListener to the itemView to send me to the details page and display all information of the task.DataBase
 
 <img src="screenshots/lab29/home.jpg" width="200"/>
-<img src="screenshots/lab28/add.jpg" width="200"/>
-<img src="screenshots/lab28/db.jpg" width="200"/>
+<img src="screenshots/lab29/add.jpg" width="200"/>
+<img src="screenshots/lab29/db.jpg" />
 
