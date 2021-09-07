@@ -12,14 +12,14 @@ import java.util.List;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
 
-    List<Task> tasksList = new ArrayList<Task>();
+    List<com.amplifyframework.datastore.generated.model.Task> tasksList = new ArrayList<>();
 
-    public TaskAdapter(List<Task> tasksList) {
+    public TaskAdapter(List<com.amplifyframework.datastore.generated.model.Task> tasksList) {
         this.tasksList = tasksList;
     }
 
     public static class TaskViewHolder extends RecyclerView.ViewHolder {
-        public Task task;
+        public com.amplifyframework.datastore.generated.model.Task task;
         View itemView;
 
         public TaskViewHolder(@NonNull View itemView) {
@@ -28,9 +28,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
             itemView.setOnClickListener(view -> {
                 Intent goToDetailPage = new Intent(view.getContext(),TaskDetail.class);
-                goToDetailPage.putExtra("title",task.title);
-                goToDetailPage.putExtra("description",task.description);
-                goToDetailPage.putExtra("state",task.state);
+                goToDetailPage.putExtra("title",task.getTitle());
+                goToDetailPage.putExtra("description",task.getDescription());
+                goToDetailPage.putExtra("state",task.getStatus());
                 view.getContext().startActivity(goToDetailPage);
             });
         }
@@ -50,9 +50,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         TextView taskTitle = holder.itemView.findViewById(R.id.titleFragment);
         TextView taskDescription = holder.itemView.findViewById(R.id.descFragment);
         TextView taskState = holder.itemView.findViewById(R.id.stateFragment);
-        taskTitle.setText(holder.task.title);
-        taskDescription.setText(holder.task.description);
-        taskState.setText("State: " + holder.task.state);
+        taskTitle.setText(holder.task.getTitle());
+        taskDescription.setText(holder.task.getDescription());
+        taskState.setText("State: " + holder.task.getStatus());
     }
 
     @Override
