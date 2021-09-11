@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -50,9 +51,11 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         TextView taskTitle = holder.itemView.findViewById(R.id.titleFragment);
         TextView taskDescription = holder.itemView.findViewById(R.id.descFragment);
         TextView taskState = holder.itemView.findViewById(R.id.stateFragment);
+        TextView teamName = holder.itemView.findViewById(R.id.teamFreagment);
         taskTitle.setText(holder.task.getTitle());
         taskDescription.setText(holder.task.getDescription());
         taskState.setText("State: " + holder.task.getStatus());
+        teamName.setText("Team: "+ holder.task.getTeam().getName());
     }
 
     @Override

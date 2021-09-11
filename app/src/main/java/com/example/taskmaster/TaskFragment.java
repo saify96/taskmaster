@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
+import com.amplifyframework.datastore.generated.model.Team;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link TaskFragment#newInstance} factory method to
@@ -19,11 +21,13 @@ public class TaskFragment extends Fragment {
     private static final String ARG_PARAM1 = "title";
     private static final String ARG_PARAM2 = "description";
     private static final String ARG_PARAM3 = "state";
+    private static final String ARG_PARAM4 = "team";
 
     // TODO: Rename and change types of parameters
     private String mTitle;
     private String mDescription;
     private String mState;
+    private String mTeam;
 
     public TaskFragment() {
         // Required empty public constructor
@@ -35,16 +39,18 @@ public class TaskFragment extends Fragment {
      *
      * @param title       Parameter 1.
      * @param description Parameter 2.
-     * @param state Parameter 3.
+     * @param state       Parameter 3.
+     * @param team        Parameter 4.
      * @return A new instance of fragment TaskFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static TaskFragment newInstance(String title, String description, String state) {
+    public static TaskFragment newInstance(String title, String description, String state, String team) {
         TaskFragment fragment = new TaskFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, title);
         args.putString(ARG_PARAM2, description);
         args.putString(ARG_PARAM3, state);
+        args.putString(ARG_PARAM4, team);
         fragment.setArguments(args);
         return fragment;
     }
@@ -56,6 +62,7 @@ public class TaskFragment extends Fragment {
             mTitle = getArguments().getString(ARG_PARAM1);
             mDescription = getArguments().getString(ARG_PARAM2);
             mState = getArguments().getString(ARG_PARAM3);
+            mTeam = getArguments().getString(ARG_PARAM4);
         }
     }
 
