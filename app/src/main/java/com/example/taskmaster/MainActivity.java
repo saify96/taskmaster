@@ -62,8 +62,6 @@ public class MainActivity extends AppCompatActivity {
                         Log.i("MyAmplifyApp", t.getDescription());
                     }
                     handler.sendEmptyMessage(1);
-
-                    System.out.println("test " + tasksList.get(1).getDescription());
                 },
                 error -> Log.e("MyAmplifyApp", "Query failure", error)
         );
@@ -73,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent goToAddTaskActivity = new Intent(MainActivity.this, AddTask.class);
+                goToAddTaskActivity.putExtra("totalTasks",tasksList.size());
+                System.out.println("sizeeeee "+ tasksList.size());
                 startActivity(goToAddTaskActivity);
             }
         });
@@ -90,31 +90,6 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView allTasksRecyclerView = findViewById(R.id.allTasksRecyclerView);
         allTasksRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         allTasksRecyclerView.setAdapter(new TaskAdapter(tasksList));
-
-//        Amplify.API.query(
-//                ModelQuery.list(com.amplifyframework.datastore.generated.model.Task.class),
-//                response -> {
-////                    System.out.println(response.getData());
-//                    for (com.amplifyframework.datastore.generated.model.Task t : response.getData()) {
-////                       com.example.taskmaster.Task newTask = new com.example.taskmaster.Task(t.getTitle(),t.getDescription(),"new");
-//                        tasksList.add(newTask);
-//                        Log.i("MyAmplifyApp", t.getTitle());
-//                        Log.i("MyAmplifyApp", t.getDescription());
-//                    }
-//                    System.out.println("test " + tasksList.get(1).title);
-//
-//                },
-//                error -> Log.e("MyAmplifyApp", "Query failure", error)
-//        );
-
-//        TaskDataBase db = Room.databaseBuilder(getApplicationContext(),TaskDataBase.class,"tasks-db").allowMainThreadQueries().build();
-//        TaskDao taskDao=db.taskDao();
-//        List<Task> tasksList = taskDao.getAll();
-//
-//        RecyclerView allTasksRecyclerView = findViewById(R.id.allTasksRecyclerView);
-//        allTasksRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        allTasksRecyclerView.setAdapter(new TaskAdapter(tasksList));
-
     }
 
     @Override

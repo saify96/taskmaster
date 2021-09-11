@@ -49,3 +49,14 @@
 <img src="screenshots/lab29/add.jpg" width="200"/>
 <img src="screenshots/lab29/db.jpg" />
 
+# lab 33
+
+- Edit the schema to generate Team class
+- Create 3 Teams (hard coded)
+- Create Radio buttons to take the team with the task title and description
+
+<img src="screenshots/lab33/add.jpg" width="200"/>
+<img src="screenshots/lab33/home.jpg" width="200"/>
+
+<img src="screenshots/lab33/teams.jpg">
+<img src="screenshots/lab33/task.jpg" >
