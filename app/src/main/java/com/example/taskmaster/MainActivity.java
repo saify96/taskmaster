@@ -18,10 +18,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
 import com.amplifyframework.AmplifyException;
 import com.amplifyframework.api.aws.AWSApiPlugin;
 import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
+import com.amplifyframework.auth.AuthUserAttribute;
+import com.amplifyframework.auth.AuthUserAttributeKey;
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
+import com.amplifyframework.auth.options.AuthSignOutOptions;
+import com.amplifyframework.auth.options.AuthSignUpOptions;
+import com.amplifyframework.auth.result.AuthSignInResult;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Task;
 
@@ -30,6 +37,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     List<Task> tasksList = new ArrayList<>();
+    boolean isSignedIn;
+    String userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,11 +56,94 @@ public class MainActivity extends AppCompatActivity {
 
         try {
             Amplify.addPlugin(new AWSApiPlugin());
+            Amplify.addPlugin(new AWSCognitoAuthPlugin());
             Amplify.configure(getApplicationContext());
             Log.i("MyAmplifyApp", "Initialized Amplify");
         } catch (AmplifyException error) {
             Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
         }
+
+//        AuthSignUpOptions options = AuthSignUpOptions.builder()
+//                .userAttribute(AuthUserAttributeKey.email(), "mohammad.alsaify@gmail.com")
+//                .build();
+//        Amplify.Auth.signUp("saify96", "Pass1996", options,
+//                result -> Log.i("AuthQuickStart", "Result: " + result.toString()),
+//                error -> Log.e("AuthQuickStart", "Sign up failed", error)
+//        );
+
+//        Amplify.Auth.confirmSignUp(
+//                "saify96",
+//                "903024",
+//                result -> Log.i("AuthQuickstart", result.isSignUpComplete() ? "Confirm signUp succeeded" : "Confirm sign up not complete"),
+//                error -> Log.e("AuthQuickstart", error.toString())
+//        );
+
+//        Amplify.Auth.signIn(
+//                "saify96",
+//                "Pass1996",
+//                result -> Log.i("AuthQuickstart", result.isSignInComplete() ? "Sign in succeeded" : "Sign in not complete"),
+//                error -> Log.e("AuthQuickstart", error.toString())
+//        );
+
+//        Amplify.Auth.signOut(
+//                AuthSignOutOptions.builder().globalSignOut(true).build(),
+//                () -> Log.i("AuthQuickstart", "Signed out globally"),
+//                error -> Log.e("AuthQuickstart", error.toString())
+//        );
+
+        Amplify.Auth.fetchAuthSession(
+                result -> {
+                    Log.i("AmplifyQuickstart", result.toString());
+                    isSignedIn = result.isSignedIn();
+                },
+                error -> Log.e("AmplifyQuickstart", error.toString())
+        );
+
+//        if (isSignedIn){
+//            findViewById(R.id.login).setVisibility(View.GONE);   ;
+//        } else{
+//            findViewById(R.id.logout).setVisibility(View.GONE);   ;
+//
+        if (isSignedIn) {
+            userName = Amplify.Auth.getCurrentUser().getUsername();
+            TextView welcome = findViewById(R.id.welcomeMsg);
+            welcome.setText(" هلا والله " + userName);
+
+        }
+
+//        Amplify.Auth.fetchUserAttributes(
+//                attributes -> {
+//                    Log.i("AuthDemo", "User attributes = " + attributes.toString());
+//                    userName=attributes.get(attributes.size()-1).getValue();
+////                    userName=attribut
+////                    System.out.println(AuthUserAttributeKey.);
+//
+//                },
+//                error -> Log.e("AuthDemo", "Failed to fetch user attributes.", error)
+//        );
+
+        Button loginButton = findViewById(R.id.login);
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Amplify.Auth.signInWithWebUI(
+                        MainActivity.this,
+                        result -> Log.i("AuthQuickStart", result.toString()),
+                        error -> Log.e("AuthQuickStart", error.toString())
+                );
+            }
+        });
+
+        Button logoutButton = findViewById(R.id.logout);
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Amplify.Auth.signOut(
+                        () -> Log.i("AuthQuickstart", "Signed out successfully"),
+                        error -> Log.e("AuthQuickstart", error.toString())
+                );
+            }
+        });
 
         Amplify.API.query(
                 ModelQuery.list(com.amplifyframework.datastore.generated.model.Task.class),
@@ -71,8 +163,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent goToAddTaskActivity = new Intent(MainActivity.this, AddTask.class);
-                goToAddTaskActivity.putExtra("totalTasks",tasksList.size());
-                System.out.println("sizeeeee "+ tasksList.size());
+                goToAddTaskActivity.putExtra("totalTasks", tasksList.size());
                 startActivity(goToAddTaskActivity);
             }
         });
@@ -87,6 +178,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
+//        if (isSignedIn) {
+//            findViewById(R.id.login).setVisibility(View.GONE);
+//        } else {
+//            findViewById(R.id.logout).setVisibility(View.GONE);
+//        }
+
         RecyclerView allTasksRecyclerView = findViewById(R.id.allTasksRecyclerView);
         allTasksRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         allTasksRecyclerView.setAdapter(new TaskAdapter(tasksList));
