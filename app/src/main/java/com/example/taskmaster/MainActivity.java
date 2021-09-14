@@ -91,25 +91,18 @@ public class MainActivity extends AppCompatActivity {
 //                error -> Log.e("AuthQuickstart", error.toString())
 //        );
 
-        Amplify.Auth.fetchAuthSession(
-                result -> {
-                    Log.i("AmplifyQuickstart", result.toString());
-                    isSignedIn = result.isSignedIn();
-                },
-                error -> Log.e("AmplifyQuickstart", error.toString())
-        );
 
 //        if (isSignedIn){
 //            findViewById(R.id.login).setVisibility(View.GONE);   ;
 //        } else{
 //            findViewById(R.id.logout).setVisibility(View.GONE);   ;
 //
-        if (isSignedIn) {
-            userName = Amplify.Auth.getCurrentUser().getUsername();
-            TextView welcome = findViewById(R.id.welcomeMsg);
-            welcome.setText(" هلا والله " + userName);
-
-        }
+//        if (isSignedIn) {
+//            userName = Amplify.Auth.getCurrentUser().getUsername();
+//            TextView welcome = findViewById(R.id.welcomeMsg);
+//            welcome.setText(" هلا والله " + userName);
+//
+//        }
 
 //        Amplify.Auth.fetchUserAttributes(
 //                attributes -> {
@@ -178,12 +171,37 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        Amplify.Auth.fetchAuthSession(
+                result -> {
+                    Log.i("AmplifyQuickstart", result.toString());
+                    isSignedIn = result.isSignedIn();
+                    if (isSignedIn) {
+                        userName = Amplify.Auth.getCurrentUser().getUsername();
+                        TextView welcome = findViewById(R.id.welcomeMsg);
+                        welcome.setText(" هلا والله " + userName);
+                        findViewById(R.id.login).setVisibility(View.GONE);
+                    }
+                },
+                error -> Log.e("AmplifyQuickstart", error.toString())
+        );
+
 
 //        if (isSignedIn) {
 //            findViewById(R.id.login).setVisibility(View.GONE);
 //        } else {
 //            findViewById(R.id.logout).setVisibility(View.GONE);
 //        }
+//        runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                if (isSignedIn) {
+//                    findViewById(R.id.login).setVisibility(View.GONE);
+//                } else {
+//                    findViewById(R.id.logout).setVisibility(View.GONE);
+//                }
+//            }
+//        });
+
 
         RecyclerView allTasksRecyclerView = findViewById(R.id.allTasksRecyclerView);
         allTasksRecyclerView.setLayoutManager(new LinearLayoutManager(this));
