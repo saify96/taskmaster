@@ -60,3 +60,12 @@
 
 <img src="screenshots/lab33/teams.jpg">
 <img src="screenshots/lab33/task.jpg" >
+
+# lab 36
+
+- add login/logout system
+- display the username for the loggedin user on home page
+
+<img src="screenshots/lab36/before.jpg" width="200"/>
+<img src="screenshots/lab36/sign.jpg" width="200"/>
+<img src="screenshots/lab36/after.jpg" width="200"/>
