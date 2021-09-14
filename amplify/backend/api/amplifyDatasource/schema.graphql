@@ -3,6 +3,7 @@ type Task @model @key(name:"byTeam", fields:["teamId"]){
   title: String!
   description: String
   status: String
+  image: String
   teamId:ID!
   team:Team @connection(fields:["teamId"])
 }

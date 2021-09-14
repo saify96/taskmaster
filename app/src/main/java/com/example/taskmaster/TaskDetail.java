@@ -1,12 +1,19 @@
 package com.example.taskmaster;
 
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.amplifyframework.core.Amplify;
+
+import java.io.File;
 
 public class TaskDetail extends AppCompatActivity {
 
@@ -39,5 +46,19 @@ public class TaskDetail extends AppCompatActivity {
         String state = intent.getExtras().getString("state");
         TextView taskDetailState = findViewById(R.id.taskDetailState);
         taskDetailState.setText(state);
+
+        String image = intent.getExtras().getString("image");
+        ImageView imageView = findViewById(R.id.imageView);
+
+        Amplify.Storage.downloadFile(
+                image,
+                new File(getApplicationContext().getFilesDir() + "/download.txt"),
+                result -> {
+                    Log.i("MyAmplifyApp", "Successfully downloaded: " + result.getFile().getName());
+                    imageView.setImageBitmap(BitmapFactory.decodeFile(result.getFile().getPath()));
+                },
+                error -> Log.e("MyAmplifyApp",  "Download Failure", error)
+
+        );
     }
 }
