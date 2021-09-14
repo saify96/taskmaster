@@ -12,26 +12,18 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
-import android.content.Context;
 
 import androidx.room.Room;
-import androidx.test.espresso.PerformException;
 //import androidx.test.espresso.contrib.RecyclerViewActions;
 //import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.espresso.contrib.RecyclerViewActions;
-import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.filters.LargeTest;
-import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import static org.junit.Assert.*;
-
-import java.util.Set;
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -47,7 +39,7 @@ public class ExampleInstrumentedTest {
     @Test
     public void checkComponentsIsVisible() {
         onView(withText("هلا والله")).check(matches(isDisplayed()));
-        onView(withId(R.id.myTasks)).check(matches(isDisplayed()));
+        onView(withId(R.id.welcomeMsg)).check(matches(isDisplayed()));
         onView(withId(R.id.settingButton)).check(matches(isDisplayed()));
         onView(withId(R.id.addTaskButton)).check(matches(isDisplayed()));
         onView(withId(R.id.allTasksRecyclerView)).check(matches(isDisplayed()));
@@ -89,7 +81,7 @@ public class ExampleInstrumentedTest {
                 hasDescendant(withText("batool"))
         ));
     }
-
+    }
 //
     //Setting
 
@@ -124,4 +116,4 @@ public class ExampleInstrumentedTest {
 //    }
 
 
-}
+//}
