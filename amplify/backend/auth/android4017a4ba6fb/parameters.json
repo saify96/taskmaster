@@ -1,6 +1,6 @@
 {
     "identityPoolName": "android4017a4ba6fb_identitypool_7a4ba6fb",
-    "allowUnauthenticatedIdentities": false,
+    "allowUnauthenticatedIdentities": true,
     "resourceNameTruncated": "androi7a4ba6fb",
     "userPoolName": "android4017a4ba6fb_userpool_7a4ba6fb",
     "autoVerifiedAttributes": [
