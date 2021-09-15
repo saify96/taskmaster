@@ -92,7 +92,6 @@ public class AddTask extends AppCompatActivity {
                     error -> Log.e("MyAmplifyApp", "Create failed", error)
             );
 
-
             Intent intent = new Intent(AddTask.this, MainActivity.class);
             startActivity(intent);
         });
