@@ -69,3 +69,16 @@
 <img src="screenshots/lab36/before.jpg" width="200"/>
 <img src="screenshots/lab36/sign.jpg" width="200"/>
 <img src="screenshots/lab36/after.jpg" width="200"/>
+
+# lab 37
+
+- add a button to let the user upload a file (image in our case)
+- display the image for the task in the details page
+
+<img src="screenshots/lab37/add.jpg" width="200"/>
+<img src="screenshots/lab37/pic.jpg" width="200"/>
+
+# lab 38
+- install sns to send a notification through the firebase to your app
+
+<img src="screenshots/lab38/noti.jpg" width="200"/>
