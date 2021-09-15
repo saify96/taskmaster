@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -182,12 +183,17 @@ public class MainActivity extends AppCompatActivity {
         );
 
         Button addTaskButton = findViewById(R.id.addTaskButton);
+
         addTaskButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent goToAddTaskActivity = new Intent(MainActivity.this, AddTask.class);
-                goToAddTaskActivity.putExtra("totalTasks", tasksList.size());
-                startActivity(goToAddTaskActivity);
+                if (isSignedIn) {
+                    Intent goToAddTaskActivity = new Intent(MainActivity.this, AddTask.class);
+                    goToAddTaskActivity.putExtra("totalTasks", tasksList.size());
+                    startActivity(goToAddTaskActivity);
+                } else {
+                    Toast.makeText(MainActivity.this, "please signin", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
