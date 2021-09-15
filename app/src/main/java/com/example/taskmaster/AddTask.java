@@ -1,8 +1,10 @@
 package com.example.taskmaster;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -10,6 +12,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.amplifyframework.AmplifyException;
@@ -19,10 +22,15 @@ import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Team;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.HashMap;
 
 public class AddTask extends AppCompatActivity {
-    HashMap<String ,Team> teamList= new HashMap<>();
+    HashMap<String, Team> teamList = new HashMap<>();
+    String uploadedFileName;
+    Uri dataFromS3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,17 +42,29 @@ public class AddTask extends AppCompatActivity {
                 response -> {
                     System.out.println("response" + response.getData());
                     for (Team t : response.getData()) {
-                        teamList.put(t.getName(),t);
+                        teamList.put(t.getName(), t);
                         Log.i("MyAmplifyApp", t.getName());
                     }
-//                        handler.sendEmptyMessage(1);
                 },
                 error -> Log.e("MyAmplifyApp", "Query failure", error)
         );
 
         Button submitButton = findViewById(R.id.submitButton);
         submitButton.setOnClickListener(view -> {
-            Toast.makeText(getApplicationContext(), "submitted!", Toast.LENGTH_LONG).show();
+
+            try {
+                if (dataFromS3 != null) {
+                    InputStream inputStream = getContentResolver().openInputStream(dataFromS3);
+                    Amplify.Storage.uploadInputStream(
+                            uploadedFileName,
+                            inputStream,
+                            result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + result.getKey()),
+                            storageFailure -> Log.e("MyAmplifyApp", "Upload failed", storageFailure)
+                    );
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
 
             EditText taskTitleField = findViewById(R.id.taskTitle);
             String taskTitle = taskTitleField.getText().toString();
@@ -55,7 +75,7 @@ public class AddTask extends AppCompatActivity {
             RadioGroup group = findViewById(R.id.hammoudeh);
             int id = group.getCheckedRadioButtonId();
             RadioButton team = (RadioButton) findViewById(id);
-            String radioButoon = (String)team.getText();
+            String radioButoon = (String) team.getText();
             System.out.println(radioButoon);
 
             com.amplifyframework.datastore.generated.model.Task task = com.amplifyframework.datastore.generated.model.Task.builder()
@@ -63,6 +83,7 @@ public class AddTask extends AppCompatActivity {
                     .description(taskDesc)
                     .status("NEW")
                     .team(teamList.get(radioButoon))
+                    .image(uploadedFileName)
                     .build();
 
             Amplify.API.mutate(
@@ -71,8 +92,17 @@ public class AddTask extends AppCompatActivity {
                     error -> Log.e("MyAmplifyApp", "Create failed", error)
             );
 
+
             Intent intent = new Intent(AddTask.this, MainActivity.class);
             startActivity(intent);
+        });
+
+        Button uploadButton = findViewById(R.id.uploadFile);
+        uploadButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pickFile();
+            }
         });
     }
 
@@ -85,29 +115,21 @@ public class AddTask extends AppCompatActivity {
 
         TextView totalTasksView = findViewById(R.id.totalTasks);
 
-        totalTasksView.setText("Total Tasks: "+totalTasks);
+        totalTasksView.setText("Total Tasks: " + totalTasks);
+    }
+
+    private void pickFile() {
+        Intent selectedFile = new Intent(Intent.ACTION_GET_CONTENT);
+        selectedFile.setType(("*/*"));
+        selectedFile = Intent.createChooser(selectedFile, "Select File");
+        startActivityForResult(selectedFile, 1234);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        dataFromS3 = data.getData();
+        File file = new File(dataFromS3.getPath());
+        uploadedFileName = file.getName();
     }
 }
-
-//            RadioButton radioButton = (RadioButton)group.getCheckedRadioButtonId();
-//            RadioButton team2 = findViewById(R.id.radioButtonTeam2);
-//            RadioButton team3 = findViewById(R.id.radioButtonTeam3);
-//            if (team1.isChecked()){
-//            }
-
-//            Team team1 = Team.builder()
-//                    .name("Team 3")
-//                    .build();
-//
-//            Amplify.API.mutate(
-//                    ModelMutation.create(team1),
-//                    response -> Log.i("MyAmplifyApp", "Added team with id: " + response.getData().getId()),
-//                    error -> Log.e("MyAmplifyApp", "Create failed", error)
-//
-//            );
-
-
-//            Task newTask = new Task(taskTitle,taskDesc,"new");
-//            TaskDataBase db = Room.databaseBuilder(getApplicationContext(),TaskDataBase.class,"tasks-db").allowMainThreadQueries().build();
-//            TaskDao taskDao=db.taskDao();
-//            taskDao.insertDishes(newTask);

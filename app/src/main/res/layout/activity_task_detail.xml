@@ -15,23 +15,24 @@
         android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.219"
+        app:layout_constraintHorizontal_bias="0.223"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.161" />
+        app:layout_constraintVertical_bias="0.137" />
 
     <TextView
         android:id="@+id/taskDetailDesc"
-        android:layout_width="291dp"
-        android:layout_height="309dp"
+        android:layout_width="283dp"
+        android:layout_height="77dp"
         android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris porttitor auctor quam sed malesuada. Nullam in nulla purus. Etiam tempus dapibus massa. In eget lacus id urna placerat eleifend. Mauris volutpat congue accumsan. Nullam nec convallis justo, eget aliquam mauris. Donec odio odio, sollicitudin et urna vitae, condimentum euismod quam. Vestibulum sodales congue diam, vel lobortis elit dignissim sed. Maecenas volutpat dui dolor, id fermentum enim cursus ac.  "
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textSize="17sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.476"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.438" />
+        app:layout_constraintTop_toBottomOf="@+id/taskDetailState"
+        app:layout_constraintVertical_bias="0.026" />
 
     <Button
         android:id="@+id/backButton"
@@ -42,17 +43,31 @@
         android:text="back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.189"
+        app:layout_constraintHorizontal_bias="0.188"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/taskDetailDesc" />
+        app:layout_constraintTop_toBottomOf="@+id/taskDetailDesc"
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/taskDetailState"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.172"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/taskDetailTitle" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="279dp"
+        android:layout_height="280dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.462"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/taskDetailDesc"
+        app:layout_constraintVertical_bias="0.055"
+        app:srcCompat="@drawable/_19a1be1b7d8fc13" />
 </androidx.constraintlayout.widget.ConstraintLayout>

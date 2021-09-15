@@ -26,11 +26,13 @@ public final class Task implements Model {
   public static final QueryField TITLE = field("Task", "title");
   public static final QueryField DESCRIPTION = field("Task", "description");
   public static final QueryField STATUS = field("Task", "status");
+  public static final QueryField IMAGE = field("Task", "image");
   public static final QueryField TEAM = field("Task", "teamId");
   private final @ModelField(targetType="ID", isRequired = true) String id;
   private final @ModelField(targetType="String", isRequired = true) String title;
   private final @ModelField(targetType="String") String description;
   private final @ModelField(targetType="String") String status;
+  private final @ModelField(targetType="String") String image;
   private final @ModelField(targetType="Team") @BelongsTo(targetName = "teamId", type = Team.class) Team team;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
@@ -50,6 +52,10 @@ public final class Task implements Model {
       return status;
   }
   
+  public String getImage() {
+      return image;
+  }
+  
   public Team getTeam() {
       return team;
   }
@@ -62,11 +68,12 @@ public final class Task implements Model {
       return updatedAt;
   }
   
-  private Task(String id, String title, String description, String status, Team team) {
+  private Task(String id, String title, String description, String status, String image, Team team) {
     this.id = id;
     this.title = title;
     this.description = description;
     this.status = status;
+    this.image = image;
     this.team = team;
   }
   
@@ -82,6 +89,7 @@ public final class Task implements Model {
               ObjectsCompat.equals(getTitle(), task.getTitle()) &&
               ObjectsCompat.equals(getDescription(), task.getDescription()) &&
               ObjectsCompat.equals(getStatus(), task.getStatus()) &&
+              ObjectsCompat.equals(getImage(), task.getImage()) &&
               ObjectsCompat.equals(getTeam(), task.getTeam()) &&
               ObjectsCompat.equals(getCreatedAt(), task.getCreatedAt()) &&
               ObjectsCompat.equals(getUpdatedAt(), task.getUpdatedAt());
@@ -95,6 +103,7 @@ public final class Task implements Model {
       .append(getTitle())
       .append(getDescription())
       .append(getStatus())
+      .append(getImage())
       .append(getTeam())
       .append(getCreatedAt())
       .append(getUpdatedAt())
@@ -110,6 +119,7 @@ public final class Task implements Model {
       .append("title=" + String.valueOf(getTitle()) + ", ")
       .append("description=" + String.valueOf(getDescription()) + ", ")
       .append("status=" + String.valueOf(getStatus()) + ", ")
+      .append("image=" + String.valueOf(getImage()) + ", ")
       .append("team=" + String.valueOf(getTeam()) + ", ")
       .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
       .append("updatedAt=" + String.valueOf(getUpdatedAt()))
@@ -145,6 +155,7 @@ public final class Task implements Model {
       null,
       null,
       null,
+      null,
       null
     );
   }
@@ -154,6 +165,7 @@ public final class Task implements Model {
       title,
       description,
       status,
+      image,
       team);
   }
   public interface TitleStep {
@@ -166,6 +178,7 @@ public final class Task implements Model {
     BuildStep id(String id) throws IllegalArgumentException;
     BuildStep description(String description);
     BuildStep status(String status);
+    BuildStep image(String image);
     BuildStep team(Team team);
   }
   
@@ -175,6 +188,7 @@ public final class Task implements Model {
     private String title;
     private String description;
     private String status;
+    private String image;
     private Team team;
     @Override
      public Task build() {
@@ -185,6 +199,7 @@ public final class Task implements Model {
           title,
           description,
           status,
+          image,
           team);
     }
     
@@ -208,6 +223,12 @@ public final class Task implements Model {
     }
     
     @Override
+     public BuildStep image(String image) {
+        this.image = image;
+        return this;
+    }
+    
+    @Override
      public BuildStep team(Team team) {
         this.team = team;
         return this;
@@ -225,11 +246,12 @@ public final class Task implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String title, String description, String status, Team team) {
+    private CopyOfBuilder(String id, String title, String description, String status, String image, Team team) {
       super.id(id);
       super.title(title)
         .description(description)
         .status(status)
+        .image(image)
         .team(team);
     }
     
@@ -246,6 +268,11 @@ public final class Task implements Model {
     @Override
      public CopyOfBuilder status(String status) {
       return (CopyOfBuilder) super.status(status);
+    }
+    
+    @Override
+     public CopyOfBuilder image(String image) {
+      return (CopyOfBuilder) super.image(image);
     }
     
     @Override
