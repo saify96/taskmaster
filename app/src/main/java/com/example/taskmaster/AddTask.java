@@ -1,6 +1,9 @@
 package com.example.taskmaster;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.amplifyframework.AmplifyException;
 import com.amplifyframework.api.aws.AWSApiPlugin;
@@ -21,6 +25,9 @@ import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Team;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -31,11 +38,33 @@ public class AddTask extends AppCompatActivity {
     HashMap<String, Team> teamList = new HashMap<>();
     String uploadedFileName;
     Uri dataFromS3;
+    double longitude;
+    double latitude;
+
+    private FusedLocationProviderClient fusedLocationClient;
+
+    void handleSendText(Intent intentFotShared) {
+        String sharedText = intentFotShared.getStringExtra(intentFotShared.EXTRA_TEXT);
+        if (sharedText != null) {
+            TextView desc = findViewById(R.id.taskDesc);
+            desc.setText(sharedText);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
+
+        Intent intentFotShared = getIntent();
+        String action = intentFotShared.getAction();
+        String type = intentFotShared.getType();
+
+        if (Intent.ACTION_SEND.equals(action) && type != null) {
+            if ("text/plain".equals(type)) {
+                handleSendText(intentFotShared); // Handle text being sent
+            }
+        }
 
         Amplify.API.query(
                 ModelQuery.list(Team.class),
@@ -48,6 +77,32 @@ public class AddTask extends AppCompatActivity {
                 },
                 error -> Log.e("MyAmplifyApp", "Query failure", error)
         );
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            ActivityCompat.requestPermissions(this, new String[]{
+                    Manifest.permission.ACCESS_FINE_LOCATION}, 100);
+
+            boolean x = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+            return;
+        }
+
+        fusedLocationClient.getLastLocation()
+                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        // Got last known location. In some rare situations this can be null.
+                        if (location != null) {
+                            // Logic to handle location object
+                            longitude = location.getLongitude();
+                            latitude = location.getLatitude();
+                            System.out.println("Latitude: " + latitude + " - " + "Longitude: " + longitude);
+                        }
+                    }
+                });
 
         Button submitButton = findViewById(R.id.submitButton);
         submitButton.setOnClickListener(view -> {
@@ -76,7 +131,18 @@ public class AddTask extends AppCompatActivity {
             int id = group.getCheckedRadioButtonId();
             RadioButton team = (RadioButton) findViewById(id);
             String radioButoon = (String) team.getText();
-            System.out.println(radioButoon);
+
+            System.out.println("longitude " + longitude);
+            System.out.println("latitude " + latitude);
+
+            com.amplifyframework.datastore.generated.model.Location location =
+                    com.amplifyframework.datastore.generated.model.Location.builder().lon(longitude).lat(latitude).build();
+
+            Amplify.API.mutate(
+                    ModelMutation.create(location),
+                    response -> Log.i("MyAmplifyApp", "Added location with id: " + response.getData().getId()),
+                    error -> Log.e("MyAmplifyApp", "Create failed", error)
+            );
 
             com.amplifyframework.datastore.generated.model.Task task = com.amplifyframework.datastore.generated.model.Task.builder()
                     .title(taskTitle)
@@ -84,6 +150,7 @@ public class AddTask extends AppCompatActivity {
                     .status("NEW")
                     .team(teamList.get(radioButoon))
                     .image(uploadedFileName)
+                    .location(location)
                     .build();
 
             Amplify.API.mutate(

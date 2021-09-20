@@ -1,8 +1,13 @@
 package com.example.taskmaster;
 
+import static com.google.android.gms.common.GooglePlayServicesUtil.isGooglePlayServicesAvailable;
+
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -16,6 +21,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
@@ -40,7 +46,12 @@ import com.amplifyframework.auth.result.AuthSignInResult;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Task;
 import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
@@ -50,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
     List<Task> tasksList = new ArrayList<>();
     boolean isSignedIn;
     String userName;
+    private FusedLocationProviderClient fusedLocationClient;
 
     public static final String TAG = MainActivity.class.getSimpleName();
 
@@ -94,11 +106,61 @@ public class MainActivity extends AppCompatActivity {
         return pinpointManager;
     }
 
+    public boolean isGooglePlayServicesAvailable(Context context) {
+        GoogleApiAvailability googleApiAvailability = GoogleApiAvailability.getInstance();
+        int resultCode = googleApiAvailability.isGooglePlayServicesAvailable(context);
+//        System.out.println("maram");
+//        System.out.println("ConnectionResult.SUCCESS "+ConnectionResult.SUCCESS);
+//        System.out.println("resultCode "+resultCode);
+        return resultCode == ConnectionResult.SUCCESS;
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+//        System.out.println();
+//        GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(MainActivity.this);
+//        isGooglePlayServicesAvailable(GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(MainActivity.this));
+        System.out.println("isGooglePlayServicesAvailable " + isGooglePlayServicesAvailable(MainActivity.this));
+
+//        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+//
+//
+//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            // TODO: Consider calling
+//            //    ActivityCompat#requestPermissions
+//            ActivityCompat.requestPermissions(this, new String[]{
+//                    Manifest.permission.ACCESS_COARSE_LOCATION,
+//                    Manifest.permission.ACCESS_FINE_LOCATION}, 100);
+//
+//            boolean x = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
+//                    &&
+//                    ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+//            System.out.println("**********check activity compact "+ x );
+//            // here to request the missing permissions, and then overriding
+//            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//            //                                          int[] grantResults)
+//            // to handle the case where the user grants the permission. See the documentation
+//            // for ActivityCompat#requestPermissions for more details.
+//            return;
+//        }
+//        fusedLocationClient.getLastLocation()
+//                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+//                    @Override
+//                    public void onSuccess(Location location) {
+//                        // Got last known location. In some rare situations this can be null.
+//                        if (location != null) {
+//                            // Logic to handle location object
+//                            double longitude= location.getLongitude();
+//                            double latitude= location.getLatitude();
+//                            System.out.println("Latitude: " + latitude+" - "+ "Longitude: " +
+//                                    longitude);
+//                        }
+//                    }
+//                });
+
         RecyclerView allTasksRecyclerView = findViewById(R.id.allTasksRecyclerView);
 
         Handler handler = new Handler(Looper.getMainLooper(), new Handler.Callback() {
