@@ -40,12 +40,22 @@ public class TaskDetail extends AppCompatActivity {
         String title = intent.getExtras().getString("title");
         TextView taskDetailTitle = findViewById(R.id.taskDetailTitle);
         taskDetailTitle.setText(title);
+
         String desc = intent.getExtras().getString("description");
         TextView taskDetailDesc = findViewById(R.id.taskDetailDesc);
         taskDetailDesc.setText(desc);
+
         String state = intent.getExtras().getString("state");
         TextView taskDetailState = findViewById(R.id.taskDetailState);
         taskDetailState.setText(state);
+
+        String lon = intent.getExtras().getString("lon");
+        String lat = intent.getExtras().getString("lat");
+        if(lon!=null||lat!=null){
+            TextView location = findViewById(R.id.location);
+            location.setText("lat "  +lat + " , lon "+lon);
+
+        }
 
         String image = intent.getExtras().getString("image");
         ImageView imageView = findViewById(R.id.imageView);

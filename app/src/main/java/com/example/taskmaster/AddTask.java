@@ -3,6 +3,8 @@ package com.example.taskmaster;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -31,8 +33,11 @@ import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 
 public class AddTask extends AppCompatActivity {
     HashMap<String, Team> teamList = new HashMap<>();
@@ -97,6 +102,13 @@ public class AddTask extends AppCompatActivity {
                         // Got last known location. In some rare situations this can be null.
                         if (location != null) {
                             // Logic to handle location object
+//                            Geocoder geocoder = new Geocoder(AddTask.this, Locale.getDefault());
+//                            try {
+//                                List<Address> potato= geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),2);
+//                                potato.get(0).getCountryName();
+//                            } catch (IOException e) {
+//                                e.printStackTrace();
+//                            }
                             longitude = location.getLongitude();
                             latitude = location.getLatitude();
                             System.out.println("Latitude: " + latitude + " - " + "Longitude: " + longitude);

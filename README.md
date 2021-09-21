@@ -82,3 +82,10 @@
 - install sns to send a notification through the firebase to your app
 
 <img src="screenshots/lab38/noti.jpg" width="200"/>
+
+
+
+# lab 42
+- retrive the location from the user when he add a task and store it and display it in the details page 
+
+<img src="screenshots/lab42/location.jpg" width="200"/>
