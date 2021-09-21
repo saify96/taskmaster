@@ -6,10 +6,18 @@ type Task @model @key(name:"byTeam", fields:["teamId"]){
   image: String
   teamId:ID!
   team:Team @connection(fields:["teamId"])
+  location: Location @connection
 }
 
 type Team @model{
   id: ID!
   name: String!
   tasks: [Task] @connection(keyName:"byTeam",fields:["id"])
+}
+
+type Location @model{
+    id: ID!
+    lon:Float!
+    lat:Float!
+
 }
