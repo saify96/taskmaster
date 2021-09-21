@@ -82,3 +82,9 @@
 - install sns to send a notification through the firebase to your app
 
 <img src="screenshots/lab38/noti.jpg" width="200"/>
+
+# lab 41
+- Add an intent filter to make the user able to take a text from another app to your app ( task description field )
+
+<img src="screenshots/lab41/share1.jpg" width="200"/>
+<img src="screenshots/lab41/share2.jpg" width="200"/>
