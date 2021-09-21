@@ -88,3 +88,9 @@
 
 <img src="screenshots/lab41/share1.jpg" width="200"/>
 <img src="screenshots/lab41/share2.jpg" width="200"/>
+
+
+# lab 42
+- retrive the location from the user when he add a task and store it and display it in the details page 
+
+<img src="screenshots/lab42/location.jpg" width="200"/>

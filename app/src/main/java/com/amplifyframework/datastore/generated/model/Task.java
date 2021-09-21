@@ -28,12 +28,14 @@ public final class Task implements Model {
   public static final QueryField STATUS = field("Task", "status");
   public static final QueryField IMAGE = field("Task", "image");
   public static final QueryField TEAM = field("Task", "teamId");
+  public static final QueryField LOCATION = field("Task", "taskLocationId");
   private final @ModelField(targetType="ID", isRequired = true) String id;
   private final @ModelField(targetType="String", isRequired = true) String title;
   private final @ModelField(targetType="String") String description;
   private final @ModelField(targetType="String") String status;
   private final @ModelField(targetType="String") String image;
   private final @ModelField(targetType="Team") @BelongsTo(targetName = "teamId", type = Team.class) Team team;
+  private final @ModelField(targetType="Location") @BelongsTo(targetName = "taskLocationId", type = Location.class) Location location;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
@@ -60,6 +62,10 @@ public final class Task implements Model {
       return team;
   }
   
+  public Location getLocation() {
+      return location;
+  }
+  
   public Temporal.DateTime getCreatedAt() {
       return createdAt;
   }
@@ -68,13 +74,14 @@ public final class Task implements Model {
       return updatedAt;
   }
   
-  private Task(String id, String title, String description, String status, String image, Team team) {
+  private Task(String id, String title, String description, String status, String image, Team team, Location location) {
     this.id = id;
     this.title = title;
     this.description = description;
     this.status = status;
     this.image = image;
     this.team = team;
+    this.location = location;
   }
   
   @Override
@@ -91,6 +98,7 @@ public final class Task implements Model {
               ObjectsCompat.equals(getStatus(), task.getStatus()) &&
               ObjectsCompat.equals(getImage(), task.getImage()) &&
               ObjectsCompat.equals(getTeam(), task.getTeam()) &&
+              ObjectsCompat.equals(getLocation(), task.getLocation()) &&
               ObjectsCompat.equals(getCreatedAt(), task.getCreatedAt()) &&
               ObjectsCompat.equals(getUpdatedAt(), task.getUpdatedAt());
       }
@@ -105,6 +113,7 @@ public final class Task implements Model {
       .append(getStatus())
       .append(getImage())
       .append(getTeam())
+      .append(getLocation())
       .append(getCreatedAt())
       .append(getUpdatedAt())
       .toString()
@@ -121,6 +130,7 @@ public final class Task implements Model {
       .append("status=" + String.valueOf(getStatus()) + ", ")
       .append("image=" + String.valueOf(getImage()) + ", ")
       .append("team=" + String.valueOf(getTeam()) + ", ")
+      .append("location=" + String.valueOf(getLocation()) + ", ")
       .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
       .append("updatedAt=" + String.valueOf(getUpdatedAt()))
       .append("}")
@@ -156,6 +166,7 @@ public final class Task implements Model {
       null,
       null,
       null,
+      null,
       null
     );
   }
@@ -166,7 +177,8 @@ public final class Task implements Model {
       description,
       status,
       image,
-      team);
+      team,
+      location);
   }
   public interface TitleStep {
     BuildStep title(String title);
@@ -180,6 +192,7 @@ public final class Task implements Model {
     BuildStep status(String status);
     BuildStep image(String image);
     BuildStep team(Team team);
+    BuildStep location(Location location);
   }
   
 
@@ -190,6 +203,7 @@ public final class Task implements Model {
     private String status;
     private String image;
     private Team team;
+    private Location location;
     @Override
      public Task build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
@@ -200,7 +214,8 @@ public final class Task implements Model {
           description,
           status,
           image,
-          team);
+          team,
+          location);
     }
     
     @Override
@@ -234,6 +249,12 @@ public final class Task implements Model {
         return this;
     }
     
+    @Override
+     public BuildStep location(Location location) {
+        this.location = location;
+        return this;
+    }
+    
     /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
@@ -246,13 +267,14 @@ public final class Task implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String title, String description, String status, String image, Team team) {
+    private CopyOfBuilder(String id, String title, String description, String status, String image, Team team, Location location) {
       super.id(id);
       super.title(title)
         .description(description)
         .status(status)
         .image(image)
-        .team(team);
+        .team(team)
+        .location(location);
     }
     
     @Override
@@ -278,6 +300,11 @@ public final class Task implements Model {
     @Override
      public CopyOfBuilder team(Team team) {
       return (CopyOfBuilder) super.team(team);
+    }
+    
+    @Override
+     public CopyOfBuilder location(Location location) {
+      return (CopyOfBuilder) super.location(location);
     }
   }
   

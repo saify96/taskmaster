@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.application'
+
 }
 apply plugin: 'com.google.gms.google-services'
 
@@ -55,6 +56,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging'
     implementation 'com.amazonaws:aws-android-sdk-pinpoint:2.25.+'
     implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.26.+@aar') { transitive = true }
+    //location
+    implementation 'com.google.android.gms:play-services-location:18.0.0'
+
 
 
 }
